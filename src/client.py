@@ -37,14 +37,14 @@ class CexClient():
 
     def api_call(self, method, body={}, private=0, couple=''):  # api call (Middle level)
         nonce = self._nonce()
-        rawBody = json.dumps(body)
         path = self.BASE_URL + method + '/'
         if couple != '':
             path = path + couple + '/'  # set couple if needed
         if private:
             headers = self._headers(path, nonce)
-            print("requests.post("+ path + ", headers=" + str(headers) + ", data=" + rawBody + ", verify=True)")
-            r = requests.post(path, data=headers, verify=True)
+            data = {**headers, **body}
+            print("requests.post("+ path + ", data=" + str(data) + ", verify=True)")
+            r = requests.post(path, data=data, verify=True)
         else:
             print("requests.post("+ path + ", verify=True)")
             r = requests.post(path, verify=True)
@@ -84,4 +84,8 @@ class CexClient():
                 0, couple)
 
 if __name__ == "__main__":
-    print(CexClient('up128740645').balance())
+    # orders = []
+    # orders.append(CexClient('up128740645').place_order(amount=.15, price=100 ,couple='ETH/USD'))
+    # orders = CexClient('up128740645').current_orders(couple='ETH/USD')
+    # print(CexClient('up128740645').cancel_order(orders[0]))
+    # print(CexClient('up128740645').current_orders(couple='ETH/USD'))
